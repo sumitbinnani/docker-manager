@@ -1,0 +1,19 @@
+#!/bin/bash
+IMG_NAME=sbinnani/pytorch
+SOURCE_TAGS=(10.0-cudnn7-runtime-ubuntu18.04 10.0-cudnn7-runtime-ubuntu16.04 9.2-cudnn7-runtime-ubuntu16.04 8.0-cudnn7-runtime-ubuntu16.04)
+PYTHON_VERSIONS=(2.7 3.5 3.6 3.7)
+PYTORCH_VERSIONS=(1.0)
+
+
+
+for i in ${!SOURCE_TAGS[@]}; do
+  for j in ${!PYTHON_VERSIONS[@]}; do
+      for k in ${!PYTORCH_VERSIONS[@]}; do
+        DEST_TAG=v${PYTORCH_VERSIONS[$k]}-py${PYTHON_VERSIONS[$j]}-${SOURCE_TAGS[$i]}
+        
+        docker push $IMG_NAME:$DEST_TAG
+        
+        docker push $IMG_NAME:vnc-$DEST_TAG
+      done
+  done
+done
