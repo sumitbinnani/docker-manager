@@ -5,6 +5,8 @@ PYTHON_VERSIONS=(2.7 3.5 3.6 3.7)
 PYTORCH_VERSIONS=(1.0)
 
 
+echo "Custom Hook being Used"
+
 
 for i in ${!SOURCE_TAGS[@]}; do
   for j in ${!PYTHON_VERSIONS[@]}; do
