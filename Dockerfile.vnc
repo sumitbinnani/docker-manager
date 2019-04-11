@@ -1,4 +1,4 @@
-FROM sbinnani/pytorch:$TAGNAME
+FROM IMAGE
 LABEL maintainer="Sumit Binnani <sumit.binnani@gmail.com>"
 
 LABEL io.k8s.description="Headless VNC Container with Xfce window manager, firefox and chromium" \

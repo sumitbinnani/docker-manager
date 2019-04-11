@@ -1,4 +1,4 @@
-FROM nvidia/cuda:$TAGNAME
+FROM nvidia/cuda:TAGNAME
 LABEL maintainer="Sumit Binnani <sumit.binnani@gmail.com>"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \

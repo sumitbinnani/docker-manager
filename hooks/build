@@ -1,6 +1,6 @@
 #!/bin/bash
 IMG_NAME=sbinnani/pytorch
-SOURCE_TAGS=(10.0-cudnn7-runtime-ubuntu18.04 10.0-cudnn7-runtime-ubuntu16.04 9.2-cudnn7-runtime-ubuntu16.04 8.0-cudnn7-runtime-ubuntu16.04)
+SOURCE_TAGS=(10.0-cudnn7-runtime-ubuntu18.04 10.0-cudnn7-runtime-ubuntu16.04)
 PYTHON_VERSIONS=(2.7 3.5 3.6 3.7)
 PYTORCH_VERSIONS=(1.0)
 
@@ -12,14 +12,13 @@ for i in ${!SOURCE_TAGS[@]}; do
   for j in ${!PYTHON_VERSIONS[@]}; do
       for k in ${!PYTORCH_VERSIONS[@]}; do
         DEST_TAG=v${PYTORCH_VERSIONS[$k]}-py${PYTHON_VERSIONS[$j]}-${SOURCE_TAGS[$i]}
+        sed -e "s/TAGNAME/${SOURCE_TAGS[$i]}/g" Dockerfile > Dfile
+        docker build --build-arg PYTHON_VERSION=${PYTHON_VERSIONS[$j]} \
+                     --build-arg PYTORCH_VERSION=${PYTORCH_VERSIONS[$k]} \
+                     -f Dfile -t $IMG_NAME:$DEST_TAG .
         
-        docker build --build-arg TAGNAME=${SOURCE_TAGS[$i]} \
-                --build-arg PYTHON_VERSION=${PYTHON_VERSIONS[$j]} \
-                --build-arg PYTORCH_VERSION=${PYTORCH_VERSIONS[$k]} \
-                -f Dockerfile -t $IMG_NAME:$DEST_TAG .
-        
-        docker build --build-arg TAGNAME=$IMG_NAME:$DEST_TAG \
-                -f Dockerfile.vnc -t $IMG_NAME:vnc-$DEST_TAG .
+        sed -e "s/IMAGE/$IMG_NAME:$DEST_TAG/g" Dockerfile.vnc > Dfile.vnc
+        docker build -f Dfile.vnc -t $IMG_NAME:vnc-$DEST_TAG .
       done
   done
 done
