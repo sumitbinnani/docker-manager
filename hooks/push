@@ -9,7 +9,7 @@ PYTORCH_VERSIONS=(1.0)
 for i in ${!SOURCE_TAGS[@]}; do
   for j in ${!PYTHON_VERSIONS[@]}; do
       for k in ${!PYTORCH_VERSIONS[@]}; do
-        DEST_TAG=v${PYTORCH_VERSIONS[$k]}-py${PYTHON_VERSIONS[$j]}-${SOURCE_TAGS[$i]}
+        DEST_TAG=v${PYTORCH_VERSIONS[$k]}-py${PYTHON_VERSIONS[$j]}-cuda${SOURCE_TAGS[$i]}
         
         docker push $IMG_NAME:$DEST_TAG
         
@@ -17,3 +17,5 @@ for i in ${!SOURCE_TAGS[@]}; do
       done
   done
 done
+
+echo "Images Pushed to the Repo"

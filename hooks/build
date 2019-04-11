@@ -11,7 +11,7 @@ echo "Custom Hook being Used"
 for i in ${!SOURCE_TAGS[@]}; do
   for j in ${!PYTHON_VERSIONS[@]}; do
       for k in ${!PYTORCH_VERSIONS[@]}; do
-        DEST_TAG=v${PYTORCH_VERSIONS[$k]}-py${PYTHON_VERSIONS[$j]}-${SOURCE_TAGS[$i]}
+        DEST_TAG=v${PYTORCH_VERSIONS[$k]}-py${PYTHON_VERSIONS[$j]}-cuda${SOURCE_TAGS[$i]}
         sed -e "s+TAGNAME+${SOURCE_TAGS[$i]}+g" Dockerfile > Dfile
         docker build --build-arg PYTHON_VERSION=${PYTHON_VERSIONS[$j]} \
                      --build-arg PYTORCH_VERSION=${PYTORCH_VERSIONS[$k]} \
@@ -22,3 +22,4 @@ for i in ${!SOURCE_TAGS[@]}; do
       done
   done
 done
+
